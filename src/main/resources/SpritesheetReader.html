@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Spritesheets viewer</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	href="lib/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="lib/bootstrap-theme.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+<!-- Bootstrap js dependency -->
+<script src="lib/jquery.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="lib/bootstrap.min.js"></script>
+
+<!-- Custom js -->
+<script type='text/javascript'>
+	function loadImage() {
+		var input, file, fr, img;
+
+		if (typeof window.FileReader !== 'function') {
+			log("The file API isn't supported on this browser yet.");
+			return;
+		}
+
+		input = document.getElementById('imgfile');
+		if (!input) {
+			log("Um, couldn't find the imgfile element.");
+		} else if (!input.files) {
+			log("This browser doesn't seem to support the `files` property of file inputs.");
+		} else if (!input.files[0]) {
+			log("Please select a file before clicking 'Load'");
+		} else {
+			file = input.files[0];
+			fr = new FileReader();
+			fr.onload = createImage;
+			fr.readAsDataURL(file);
+		}
+
+		var xpos = 0, ypos = 0, index = 0, numFrames = 120, frameSize = 12;
+		var magnification = 40;
+		var img;
+
+		function createImage() {
+			img = new Image();
+			img.onload = imageLoaded;
+			img.src = fr.result;
+		}
+
+		function imageLoaded() {
+			var canvas = document.getElementById("canvas");
+			canvas.width = frameSize * magnification;
+			canvas.height = frameSize * magnification;
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+			log("");
+			setInterval(loop, 1000 / 30);
+		}
+
+		function loop() {
+			var canvas = document.getElementById("canvas");
+			var c = canvas.getContext('2d');
+			c.imageSmoothingEnabled = false;
+			//clear the canvas!
+			c.clearRect(0, 0, canvas.height, canvas.width);
+
+			/*our big long list of arguments below equates to: 
+			    1: our image source
+			    2 - 5: the rectangle in the source image of what we want to draw
+			    6 - 9: the  rectangle of our canvas that we are drawing into
+			    
+			    the area of the source image we are drawing from will change each time loop() is called.
+			    the rectangle of our canvas that we are drawing into however, will not. 
+			    tricky!
+			 */
+			c.drawImage(img, xpos, ypos, frameSize, frameSize, 0, 0, frameSize
+					* magnification, frameSize * magnification);
+
+			//each time around we add the frame size to our xpos, moving along the source image
+			xpos += frameSize;
+			//increase the index so we know which frame of our animation we are currently on
+			index += 1;
+			//if our index is higher than our total number of frames, we're at the end and better start over
+			if (index >= numFrames) {
+				xpos = 0;
+				ypos = 0;
+				index = 0;
+				//if we've gotten to the limit of our source image's width, we need to move down one row of frames                
+			} else if (xpos + frameSize > img.width) {
+				xpos = 0;
+				ypos += frameSize;
+			}
+
+		}
+
+		function log(msg) {
+			var p = document.getElementById('logpanel');
+			if (msg == "") {
+				p.className = "hidden"
+			}else {
+				p.className = "bg-warning show";
+				p.innerHTML = msg;
+			}
+
+		}
+	}
+</script>
+</head>
+<body>
+	<div class="container">
+		<h1>Spritesheet viewer</h1>
+		<div class="row">
+			<div class="col-md-12">
+				<p>
+					<form class="form form-inline" action='#' onsubmit="return false;">
+						<div class="form-group">
+							<label class="sr-only" for="imgfile">FileName</label> <input
+								type="file" class="form-control" id="imgfile" placeholder="...">
+						</div>
+						<div class="form-group">
+							<input type='button' id='btnLoad' class="btn btn-primary"
+								value='Load' onclick='loadImage();' />
+						</div>
+					</form>
+				</p>
+				<p class="hidden" style="padding:15px;" id="logpanel"></p>
+				<p>
+					<canvas id="canvas" />
+				</p>
+			</div>
+		</div>
+</body>
