@@ -19,7 +19,7 @@ public class ImgUtilsTest {
 		Color b = Color.black;
 		Color[][] pixels = { { w, w, w, w, b }, { b, b, b, b, b },
 				{ w, w, b, w, w } };
-		File f = new File("/tmp/out.png");
+		File f = File.createTempFile("pixels", "png");
 
 		// When
 		ImgUtils.toImage(pixels, f);
