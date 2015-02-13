@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import fr.thalesgroup.cis.dojo1.SpritesheetGenerator;
 import fr.thalesgroup.cis.dojo1.helpers.ImgUtils;
 
 public class SpritesheetGeneratorTest {

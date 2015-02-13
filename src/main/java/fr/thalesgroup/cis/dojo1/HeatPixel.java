@@ -1,4 +1,4 @@
-package fr.thalesgroup.cis.dojo1.kwa;
+package fr.thalesgroup.cis.dojo1;
 
 import java.awt.Color;
 
