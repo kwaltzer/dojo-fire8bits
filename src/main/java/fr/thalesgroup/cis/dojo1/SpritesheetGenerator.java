@@ -1,12 +1,10 @@
-package fr.thalesgroup.cis.dojo1.kwa;
+package fr.thalesgroup.cis.dojo1;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;

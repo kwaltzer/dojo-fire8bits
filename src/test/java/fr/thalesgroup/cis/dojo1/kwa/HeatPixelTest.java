@@ -6,7 +6,7 @@ import java.awt.Color;
 
 import org.junit.Test;
 
-import fr.thalesgroup.cis.dojo1.kwa.HeatPixel;
+import fr.thalesgroup.cis.dojo1.HeatPixel;
 
 public class HeatPixelTest {
 
