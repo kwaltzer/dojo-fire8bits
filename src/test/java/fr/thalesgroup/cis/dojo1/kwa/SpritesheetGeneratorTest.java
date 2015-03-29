@@ -1,12 +1,12 @@
 package fr.thalesgroup.cis.dojo1.kwa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +16,19 @@ import fr.thalesgroup.cis.dojo1.SpritesheetGenerator;
 import fr.thalesgroup.cis.dojo1.helpers.ImgUtils;
 
 public class SpritesheetGeneratorTest {
+	
+	private static File getFile(String name){
+		return new File(getURL(name).getPath());
+	}
 
-	private static Path TEST_RSC = Paths.get(System.getProperty("user.dir"),
-			"src", "test", "resources");
+	private static URL getURL(String name) {
+		return Thread.currentThread().getContextClassLoader().getResource(name);
+	}
 
 	@Test
 	public void testComputeWhiteFlat() throws IOException {
 		// Given
-		Color[][] ref = ImgUtils.fromImage(TEST_RSC.resolve("0.png").toFile());
+		Color[][] ref = ImgUtils.fromImage(getFile("0.png"));
 
 		// When
 		Color[][] res = SpritesheetGenerator.computeWhiteFlat(
@@ -37,7 +42,7 @@ public class SpritesheetGeneratorTest {
 	@Test
 	public void testComputeGreyShading() throws IOException {
 		// Given
-		Color[][] ref = ImgUtils.fromImage(TEST_RSC.resolve("1.png").toFile());
+		Color[][] ref = ImgUtils.fromImage(getFile("1.png"));
 
 		// When
 		Color[][] res = SpritesheetGenerator.computeGreyShading(
@@ -51,7 +56,7 @@ public class SpritesheetGeneratorTest {
 	@Test
 	public void testComputeFirstImage() throws IOException {
 		// Given
-		Color[][] ref = ImgUtils.fromImage(TEST_RSC.resolve("2.png").toFile());
+		Color[][] ref = ImgUtils.fromImage(getFile("2.png"));
 
 		// When
 		Color[][] res = SpritesheetGenerator
@@ -66,11 +71,11 @@ public class SpritesheetGeneratorTest {
 	@Test
 	public void testComputeAllFrames() throws IOException {
 		// Given
-		Path resDir = TEST_RSC.resolve("3");
-		List<Color[][]> ref = new ArrayList<>();
-		for (Path file : Files.newDirectoryStream(resDir, "*.png")) {
-			ref.add(ImgUtils.fromImage(file.toFile()));
-		}
+		List<Color[][]> ref = new ArrayList<>();		
+		URL url = getURL("3");
+		for(File file : new File(url.getPath()).listFiles()){
+			ref.add(ImgUtils.fromImage(file));
+		}		
 
 		// When
 		List<Color[][]> res = SpritesheetGenerator.computeAllFrames(
@@ -88,7 +93,7 @@ public class SpritesheetGeneratorTest {
 	@Test
 	public void testComputeSpriteSheet() throws IOException {
 		// Given
-		Color[][] ref = ImgUtils.fromImage(TEST_RSC.resolve("4.png").toFile());
+		Color[][] ref = ImgUtils.fromImage(getFile("4.png"));
 
 		// When
 		Color[][] res = SpritesheetGenerator.computeSpriteSheet(
