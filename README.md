@@ -18,9 +18,9 @@ Steps proposés
 ** hotness = 255 -> orange -> 255, 127, 0
 ** hotness = 383 -> yellow -> 255, 255, 127
 ** hotness = 511 -> white -> 255, 255, 255
-* Step 2 : Image de départ (1 ligne de pixels chaud en bas, des pixels froits partout ailleurs) ; image de référence dans /src/test/resources/2.png
+* Step 2 : Image de départ (1 ligne de pixels chaud en bas, des pixels froids partout ailleurs) ; image de référence dans /src/test/resources/2.png
 * Step 3 : Générer 120 frames ; le passage entre 1 frame et la suivante est réalisé par un filtre linéaire (noyau de convolution { { 2, 0, 2 }, { 0, 1, 0 }, { 3, 0, 3 } } sur l'intérieur de l'image (i.e. sans compter les lignes & colonnes des limites). A chaque fois, la ligne du bas est remplie de pixels chauds, le reste de l'extérieur de pixels froids. Images de référence dans /src/test/resources/3/
-* Step 4 : Composition en sprite sheet (20 frames horizontales, 6 frames verticales) ; image de référence dans /src/test/resources/1.png
+* Step 4 : Composition en sprite sheet (20 frames horizontales, 6 frames verticales) ; image de référence dans /src/test/resources/4.png
 * Step 5 : Enjoy the animation ! (utiliser src/main/resources/SpritesheetReader.html)
 
 Extensions possibles
