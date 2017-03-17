@@ -76,13 +76,13 @@ public class SpritesheetGenerator {
 	public static Color[][] computeGreyShading(int width, int height) {
 		Color[][] pixels = new Color[height][width];
 		/*
-		 * So ; Color is 0 when y = 0; 255 when y = height ; linear between
+		 * So ; Color is 0 when y == 0; 255 when y == (height-1) ; linear between
 		 * 
 		 * y * height / 120
 		 */
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				int channel = (int) (y * 255F / height);
+				int channel = (int) (y * 255F / (height-1));
 				pixels[y][x] = new Color(channel, channel, channel);
 			}
 		}
