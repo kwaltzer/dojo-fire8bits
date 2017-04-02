@@ -39,8 +39,20 @@ public class SpritesheetGeneratorTest {
 		assertArrayEquals(ref, res);
 	}
 
+        @Test
+        public void testComputeGreyShading() throws IOException {
+                // Given
+
+                // When
+                Color[][] res = SpritesheetGenerator.computeGreyShading(5, 7);
+
+                // Then
+                assertEquals(Color.BLACK, res[0][0]);
+                assertEquals(Color.WHITE, res[6][4]);
+        }
+
 	@Test
-	public void testComputeGreyShading() throws IOException {
+	public void testComputeGreyShadingFile() throws IOException {
 		// Given
 		Color[][] ref = ImgUtils.fromImage(getFile("1.png"));
 
